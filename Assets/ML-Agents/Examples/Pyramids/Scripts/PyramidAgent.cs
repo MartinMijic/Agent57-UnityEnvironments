@@ -14,7 +14,6 @@ public class PyramidAgent : Agent
     PyramidSwitch m_SwitchLogic;
     public GameObject areaSwitch;
     public bool useVectorObs;
-
     [Header("Action Properties")]
     [SerializeField] private bool UseContinuousActions = true;
 
@@ -30,7 +29,9 @@ public class PyramidAgent : Agent
         if (useVectorObs)
         {
             sensor.AddObservation(m_SwitchLogic.GetState());
+            sensor.AddObservation(transform.localRotation);
             sensor.AddObservation(transform.InverseTransformDirection(m_AgentRb.velocity));
+            //sensor.AddObservation(StepCount / (float)MaxStep);
         }
     }
 

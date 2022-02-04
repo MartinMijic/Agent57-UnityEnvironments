@@ -69,6 +69,8 @@ public class SorterAgent : Agent
 
         sensor.AddObservation(transform.forward.x);
         sensor.AddObservation(transform.forward.z);
+        sensor.AddObservation(transform.localRotation);
+        sensor.AddObservation(transform.InverseTransformDirection(m_AgentRb.velocity));
 
         foreach (var item in CurrentlyVisibleTilesList)
         {
@@ -87,9 +89,6 @@ public class SorterAgent : Agent
             //m_BufferSensor.AppendObservation(listObservation);
 
         }
-
-        sensor.AddObservation(StepCount / (float)MaxStep);
-
     }
 
     private void OnCollisionEnter(Collision col)

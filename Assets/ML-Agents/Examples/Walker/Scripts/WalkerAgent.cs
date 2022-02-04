@@ -165,7 +165,7 @@ public class WalkerAgent : Agent
             CollectObservationBodyPart(bodyPart, sensor);
         }
 
-        sensor.AddObservation(StepCount / (float)MaxStep);
+        //sensor.AddObservation(StepCount / (float)MaxStep);
     }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)

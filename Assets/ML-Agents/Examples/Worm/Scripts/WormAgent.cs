@@ -157,7 +157,7 @@ public class WormAgent : Agent
             CollectObservationBodyPart(bodyPart, sensor);
         }
 
-        sensor.AddObservation(StepCount / (float)MaxStep);
+        //sensor.AddObservation(StepCount / (float)MaxStep);
     }
 
     /// <summary>

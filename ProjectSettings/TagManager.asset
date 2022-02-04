@@ -11,6 +11,11 @@ TagManager:
   - goal
   - finish
   - finish_text
+  - switchOff
+  - pyramid
+  - block
+  - stone
+  - switchOn
   layers:
   - Default
   - TransparentFX

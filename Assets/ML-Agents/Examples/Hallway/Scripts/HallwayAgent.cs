@@ -70,7 +70,7 @@ public class HallwayAgent : Agent
                 break;
         }
         transform.Rotate(rotateDir, Time.deltaTime * 200f);
-        m_AgentRb.AddForce(dirToGo * m_HallwaySettings.agentRunSpeed*1.5f, ForceMode.VelocityChange);
+        m_AgentRb.AddForce(dirToGo * m_HallwaySettings.agentRunSpeed, ForceMode.VelocityChange);
     }
 
     public void MoveAgent_Continuous(ActionSegment<float> act)
@@ -82,7 +82,7 @@ public class HallwayAgent : Agent
         dirToGo = transform.forward * act[1];
 
         transform.Rotate(rotateDir, Time.deltaTime * 200f);
-        m_AgentRb.AddForce(dirToGo * m_HallwaySettings.agentRunSpeed * 1.5f, ForceMode.VelocityChange);
+        m_AgentRb.AddForce(dirToGo * m_HallwaySettings.agentRunSpeed, ForceMode.VelocityChange);
     }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)

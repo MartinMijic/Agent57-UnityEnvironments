@@ -29,7 +29,6 @@ public class Ball3DAgent : Agent
             sensor.AddObservation(gameObject.transform.rotation.x);
             sensor.AddObservation(ball.transform.position - gameObject.transform.position);
             sensor.AddObservation(m_BallRb.velocity);
-            sensor.AddObservation(StepCount / (float)MaxStep);
         }
     }
 
