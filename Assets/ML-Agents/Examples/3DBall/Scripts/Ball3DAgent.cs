@@ -3,6 +3,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Random = UnityEngine.Random;
+using System.IO;
 
 public class Ball3DAgent : Agent
 {
@@ -36,6 +37,8 @@ public class Ball3DAgent : Agent
     {
         var actionZ = 2f * Mathf.Clamp(actionBuffers.ContinuousActions[0], -1f, 1f);
         var actionX = 2f * Mathf.Clamp(actionBuffers.ContinuousActions[1], -1f, 1f);
+
+        //WriteActionString(actionBuffers.ContinuousActions[1], actionBuffers.ContinuousActions[0]);
 
         if ((gameObject.transform.rotation.z < 0.25f && actionZ > 0f) ||
             (gameObject.transform.rotation.z > -0.25f && actionZ < 0f))
@@ -91,5 +94,15 @@ public class Ball3DAgent : Agent
     public void SetResetParameters()
     {
         SetBall();
+    }
+
+    public void WriteActionString(float rotationX, float rotationZ)
+    {
+        string path = Application.persistentDataPath + "/3DBall_actions_log.csv";
+
+        StreamWriter writer = new StreamWriter(path, true);
+        var LineToWrite = rotationX + ";" + rotationZ;
+        writer.WriteLine(LineToWrite);
+        writer.Close();
     }
 }

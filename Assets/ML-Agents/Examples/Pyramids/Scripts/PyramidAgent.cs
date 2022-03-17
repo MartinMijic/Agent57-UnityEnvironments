@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using System.IO;
 
 public class PyramidAgent : Agent
 {
@@ -26,6 +27,8 @@ public class PyramidAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        //WriteTransformString();
+
         if (useVectorObs)
         {
             sensor.AddObservation(m_SwitchLogic.GetState());
@@ -33,6 +36,7 @@ public class PyramidAgent : Agent
             sensor.AddObservation(transform.InverseTransformDirection(m_AgentRb.velocity));
             //sensor.AddObservation(StepCount / (float)MaxStep);
         }
+
     }
 
     #region Agent movement
@@ -69,6 +73,8 @@ public class PyramidAgent : Agent
 
         rotateDir = transform.up * act[0];
         dirToGo = transform.forward * act[1];
+
+        //WriteActionString(act[1], act[0]);
 
         transform.Rotate(rotateDir, Time.deltaTime * 200f);
         m_AgentRb.AddForce(dirToGo * 2f, ForceMode.VelocityChange);
@@ -149,4 +155,25 @@ public class PyramidAgent : Agent
             EndEpisode();
         }
     }
+
+    public void WriteTransformString()
+    {
+        string path = Application.persistentDataPath + "/pyramids_transforms_log.csv";
+
+        StreamWriter writer = new StreamWriter(path, true);
+        var LineToWrite = transform.localPosition.x + ";" + transform.localPosition.y + ";" + transform.localPosition.z;
+        writer.WriteLine(LineToWrite);
+        writer.Close();
+    }
+
+    public void WriteActionString(float translation, float rotation)
+    {
+        string path = Application.persistentDataPath + "/pyramids_actions_log.csv";
+
+        StreamWriter writer = new StreamWriter(path, true);
+        var LineToWrite = translation + ";" + rotation;
+        writer.WriteLine(LineToWrite);
+        writer.Close();
+    }
+
 }

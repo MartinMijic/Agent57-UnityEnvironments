@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-
+using System.IO;
 public class MoveToGoal3Goals : Agent
 {
     #region Variables
@@ -51,10 +51,21 @@ public class MoveToGoal3Goals : Agent
     #region Observations
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.localPosition);
-        sensor.AddObservation(transform.localRotation);
-        sensor.AddObservation(transform.InverseTransformDirection(rb.velocity));
-        sensor.AddObservation(NumGoalsNotChecked);
+        //WriteTransformString();
+        if (HardRewardMode)
+        {
+            sensor.AddObservation(transform.localPosition);
+            sensor.AddObservation(transform.localRotation);
+            sensor.AddObservation(transform.InverseTransformDirection(rb.velocity));
+        }
+        else {
+            sensor.AddObservation(transform.localPosition);
+            sensor.AddObservation(transform.localRotation);
+            sensor.AddObservation(transform.InverseTransformDirection(rb.velocity));
+            sensor.AddObservation(NumGoalsNotChecked);
+            //sensor.AddObservation(StepCount / (float)MaxStep);
+        }
+
     }
     #endregion
 
@@ -73,6 +84,8 @@ public class MoveToGoal3Goals : Agent
 
             rotateDir = transform.up * actions.ContinuousActions[0];
 
+            //WriteActionString(actions.ContinuousActions[0]);
+
             // Clamp rotation area to +/- 90 deg (from agent's perspective) to prevent backwards movement
             if ((actions.ContinuousActions[0] > 0) && ((transform.localEulerAngles.y < 85f) || (transform.localEulerAngles.y > 270f)))
             {
@@ -89,6 +102,8 @@ public class MoveToGoal3Goals : Agent
         {
             var dirToGo = Vector3.zero;
             var rotateDir = Vector3.zero;
+
+            //WriteActionString(actions.DiscreteActions[0]);
 
             switch (actions.DiscreteActions[0])
             {
@@ -153,18 +168,16 @@ public class MoveToGoal3Goals : Agent
             // For hard RewardMode the rewards are calculated when reaching the finish line
             if (HardRewardMode)
             {
-                var NumGoalsChecked = NumGoals - NumGoalsNotChecked;
-                SetReward(1f + NumGoalsChecked * 0.3f - NumGoalsNotChecked * 0.3f); // Base Reward for reaching the finish line + Reward for every checked goal + penalty for every unchecked goal
-                /*
-                if (NumGoalsNotChecked != 0)
-                {
-                    
-                }*/
+                //WriteNumGoalsString(3 - NumGoalsNotChecked);
+
+                SetReward(1f - NumGoalsNotChecked * 0.3f); // Base Reward for reaching the finish line + penalty for every unchecked goal
                 StartCoroutine(SwapGroundMaterial(finishReached, 0.5f));
                 EndEpisode();
             }
             else
             {
+                //WriteNumGoalsString(3 - NumGoalsNotChecked);
+
                 SetReward(1f);
                 StartCoroutine(SwapGroundMaterial(finishReached, 0.5f));
                 EndEpisode();
@@ -212,6 +225,8 @@ public class MoveToGoal3Goals : Agent
 
     public void ResetAgentAfterCrash()
     {
+        //WriteNumGoalsString(3 - NumGoalsNotChecked);
+
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
@@ -236,4 +251,36 @@ public class MoveToGoal3Goals : Agent
         }
     }
     #endregion
+
+    public void WriteTransformString()
+    {
+        string path = Application.persistentDataPath + "/skiing_transforms_log.csv";
+
+        //Write some text to the test.txt file
+
+        StreamWriter writer = new StreamWriter(path, true);
+        var LineToWrite = transform.localPosition.x + ";" + transform.localPosition.y + ";" + transform.localPosition.z;
+        writer.WriteLine(LineToWrite);
+        writer.Close();
+    }
+
+    public void WriteActionString(float rotation)
+    {
+        string path = Application.persistentDataPath + "/skiing_actions_log.csv";
+
+        StreamWriter writer = new StreamWriter(path, true);
+        var LineToWrite = rotation;
+        writer.WriteLine(LineToWrite);
+        writer.Close();
+    }
+
+    public void WriteNumGoalsString(int numGoals)
+    {
+        string path = Application.persistentDataPath + "/skiing_goals_log.csv";
+
+        StreamWriter writer = new StreamWriter(path, true);
+        var LineToWrite = numGoals;
+        writer.WriteLine(LineToWrite);
+        writer.Close();
+    }
 }

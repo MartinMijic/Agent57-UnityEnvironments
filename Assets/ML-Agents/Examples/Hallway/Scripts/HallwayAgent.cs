@@ -3,7 +3,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-
+using System.IO;
 public class HallwayAgent : Agent
 {
     public GameObject ground;
@@ -34,6 +34,8 @@ public class HallwayAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        //WriteTransformString();
+        
         if (useVectorObs)
         {
             sensor.AddObservation(StepCount / (float)MaxStep);
@@ -80,6 +82,8 @@ public class HallwayAgent : Agent
 
         rotateDir = transform.up * act[0];
         dirToGo = transform.forward * act[1];
+
+        //WriteActionString(act[1], act[0]);
 
         transform.Rotate(rotateDir, Time.deltaTime * 200f);
         m_AgentRb.AddForce(dirToGo * m_HallwaySettings.agentRunSpeed, ForceMode.VelocityChange);
@@ -197,5 +201,25 @@ public class HallwayAgent : Agent
         }
         //m_statsRecorder.Add("Goal/Correct", 0, StatAggregationMethod.Sum);
         //m_statsRecorder.Add("Goal/Wrong", 0, StatAggregationMethod.Sum);
+    }
+
+    public void WriteActionString(float translation, float rotation)
+    {
+        string path = Application.persistentDataPath + "/hallway_actions_log.csv";
+
+        StreamWriter writer = new StreamWriter(path, true);
+        var LineToWrite = translation + ";" + rotation;
+        writer.WriteLine(LineToWrite);
+        writer.Close();
+    }
+
+    public void WriteTransformString()
+    {
+        string path = Application.persistentDataPath + "/hallway_transforms_log.csv";
+
+        StreamWriter writer = new StreamWriter(path, true);
+        var LineToWrite = transform.localPosition.x + ";" + transform.localPosition.y + ";" + transform.localPosition.z;
+        writer.WriteLine(LineToWrite);
+        writer.Close();
     }
 }

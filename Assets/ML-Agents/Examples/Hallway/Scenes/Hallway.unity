@@ -15981,6 +15981,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -100.34
       objectReference: {fileID: 0}
+    - target: {fileID: 108227806558212132, guid: 5889392e3f05b448a8a06c5def6c2dec,
+        type: 3}
+      propertyPath: m_Lightmapping
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 108227806558212132, guid: 5889392e3f05b448a8a06c5def6c2dec,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5889392e3f05b448a8a06c5def6c2dec, type: 3}
 --- !u!1001 &1798651936
@@ -18416,6 +18426,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1471560210313468, guid: f3a451555dc514f46a69319857762eda, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1745841960385024, guid: f3a451555dc514f46a69319857762eda, type: 3}
       propertyPath: m_Name
       value: SymbolFinderArea
@@ -18485,7 +18499,7 @@ PrefabInstance:
     - target: {fileID: 114286701363010626, guid: f3a451555dc514f46a69319857762eda,
         type: 3}
       propertyPath: UseContinuousActions
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114388598785529460, guid: f3a451555dc514f46a69319857762eda,
         type: 3}
@@ -18535,7 +18549,7 @@ PrefabInstance:
     - target: {fileID: 114907778469006590, guid: f3a451555dc514f46a69319857762eda,
         type: 3}
       propertyPath: m_BrainParameters.VectorActionSpaceType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114907778469006590, guid: f3a451555dc514f46a69319857762eda,
         type: 3}
@@ -18555,17 +18569,17 @@ PrefabInstance:
     - target: {fileID: 114907778469006590, guid: f3a451555dc514f46a69319857762eda,
         type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114907778469006590, guid: f3a451555dc514f46a69319857762eda,
         type: 3}
       propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114907778469006590, guid: f3a451555dc514f46a69319857762eda,
         type: 3}
       propertyPath: m_BrainParameters.m_ActionSpec.m_NumContinuousActions
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114907778469006590, guid: f3a451555dc514f46a69319857762eda,
         type: 3}
